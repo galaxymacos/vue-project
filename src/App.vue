@@ -10,12 +10,16 @@
   ])
   const newItem = ref('')
   const newItemHighPriority = ref(false)
+  const saveItem = ()=>{
+    items.value.push({id: items.value.length + 1, label: newItem.value})
+    newItem.value = ""
+  }
   </script>
   
   <template>
     <h1>{{ header }}</h1>
 <!--v-model.lazy can be used to update the value only when the input loses focus.-->
-    <form v-on:submit.prevent="items.push({id: items.length + 1, label: newItem})" class="add-item-form">
+    <form v-on:submit.prevent="saveItem()" class="add-item-form">
       <input
           v-model.trim="newItem"
           type="text"
