@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import TestReactive from './TestReactive.vue'
 
 import './assets/main.css'
 
-createApp(App).mount('#app')
+createApp(TestReactive).mount('#app')
