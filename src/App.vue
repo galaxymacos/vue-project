@@ -3,20 +3,24 @@
   
   const header = ref('Shopping List App')
   const items = ref([
-    {id: 1, label: "10 party hats"},
-    {id: 2, label: "2 board games"},
-    {id: 3, label: "20 cups"},
-    {id: 4, label: "10 plates"},
+    {id: 1, label: "10 party hats", purchased: false, highPriority: false},
+    {id: 2, label: "2 board games", purchased: false, highPriority: false},
+    {id: 3, label: "20 cups", purchased: true, highPriority: false},
+    {id: 4, label: "10 plates", purchased: true, highPriority: true},
   ])
   const editing = ref(false)
   const newItem = ref('')
   const newItemHighPriority = ref(false)
   const saveItem = ()=>{
-    items.value.push({id: items.value.length + 1, label: newItem.value})
+    items.value.push({id: items.value.length + 1, label: newItem.value, purchased: false, highPriority: newItemHighPriority.value})
     newItem.value = ""
+    newItemHighPriority.value = false
   }
   const setEditingModel = (e) => {
     editing.value = e
+  }
+  const togglePurchased = (item) => {
+    item.purchased = !item.purchased
   }
   </script>
   
@@ -39,8 +43,28 @@
     </form>
     <ul>
 <!-- index in list is the index, in dictionary is the key-->
-      <li v-for="({id, label}, index) in items" :key="id">
-        {{ label }}
+      <li
+          v-for="(item, index) in items"
+          :key="item.id"
+          @click="togglePurchased(item)"
+          class="static-class"
+          :class="{
+            strikeout: item.purchased,
+            priority: item.highPriority
+          }">
+        {{ item.label }}
+      </li>
+<!-- array syntax for class binding -->
+      <li
+          v-for="(item, index) in items"
+          :key="item.id"
+          @click="togglePurchased(item)"
+          class="static-class"
+          :class="[
+              item.purchased ? 'strikeout' : '',
+              item.highPriority ? 'priority' : ''
+          ]">
+          {{ item.label }}
       </li>
     </ul>
     <p v-if="items.length === 0">Nothing to show</p>
