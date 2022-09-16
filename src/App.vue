@@ -1,5 +1,5 @@
 <script setup>
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   
   const header = ref('Shopping List App')
   const items = ref([
@@ -22,6 +22,11 @@
   const togglePurchased = (item) => {
     item.purchased = !item.purchased
   }
+  // A more concise way to write computed getters
+  const reverseItems = computed(() => [...items.value].reverse())
+  const characterCount = computed(() => {
+    return newItem.value.length
+  })
   </script>
   
   <template>
@@ -41,10 +46,11 @@
       <br>
       <button :disabled="newItem.length === 0" class="btn btn-primary">Save Item</button>
     </form>
+    <p v-if="editing">{{ characterCount}} / 200</p>
     <ul>
 <!-- index in list is the index, in dictionary is the key-->
       <li
-          v-for="(item, index) in items"
+          v-for="(item, index) in reverseItems"
           :key="item.id"
           @click="togglePurchased(item)"
           class="static-class"
@@ -53,18 +59,6 @@
             priority: item.highPriority
           }">
         {{ item.label }}
-      </li>
-<!-- array syntax for class binding -->
-      <li
-          v-for="(item, index) in items"
-          :key="item.id"
-          @click="togglePurchased(item)"
-          class="static-class"
-          :class="[
-              item.purchased ? 'strikeout' : '',
-              item.highPriority ? 'priority' : ''
-          ]">
-          {{ item.label }}
       </li>
     </ul>
     <p v-if="items.length === 0">Nothing to show</p>
