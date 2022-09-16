@@ -35,7 +35,7 @@
       Priority:
       <label><input type="checkbox" v-model="newItemHighPriority">High Priority</label>
       <br>
-      <button class="btn btn-primary">Save Item</button>
+      <button :disabled="newItem.length === 0" class="btn btn-primary">Save Item</button>
     </form>
     <ul>
 <!-- index in list is the index, in dictionary is the key-->
